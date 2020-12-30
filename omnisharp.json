@@ -1,0 +1,16 @@
+{
+	"FormattingOptions": {
+		"NewLineForCatch": false,
+		"NewLineForClausesInQuery": false,
+		"NewLineForElse": false,
+		"NewLineForFinally": false,
+		"NewLineForMembersInObjectInit": false,
+		"NewLinesForBracesInAccessors": false,
+		"NewLinesForBracesInControlBlocks": false,
+		"NewLinesForBracesInLambdaExpressionBody": false,
+		"NewLinesForBracesInMethods": false,
+		"NewLinesForBracesInObjectCollectionArrayInitializers": false,
+		"NewLinesForBracesInProperties": false,
+		"NewLinesForBracesInTypes": false
+	}
+}
