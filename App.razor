@@ -1,1 +1,115 @@
+@inject IJSRuntime JS;
+
 <h1>Wasm Feature Test on Blazor</h1>
+
+@if (wasmProposals == null) {
+	<p><em>Testing...</em></p>
+} else {
+	<table>
+		<thead>
+			<tr>
+				<th>Proposal</th>
+				<th>Supported in this browser</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var proposal in wasmProposals) {
+				<tr>
+					<td>
+						<a href="@proposal.Uri" target="_blank" rel="noopener noreferrer">
+							@proposal.Title
+						</a>
+						@(proposal.Finished ? " (finished)" : "")
+					</td>
+					<td>
+						@(proposal.Supported ? "Yes" : "No")
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private class WasmProposal {
+		public string Title { get; set; }
+		public Uri Uri { get; set; }
+		public bool Finished { get; set; } @* https://github.com/WebAssembly/proposals/blob/master/finished-proposals.md *@
+		public bool Supported { get; set; }
+	}
+
+	private WasmProposal[] wasmProposals;
+
+	protected override async Task OnInitializedAsync() {
+		var module = await JS.InvokeAsync<IJSObjectReference>("import", "./wasm-feature-detect/index.js");
+
+		wasmProposals = new WasmProposal[] {
+			new WasmProposal {
+				Title = "JS BigInt to Wasm i64 integration",
+				Uri = new Uri("https://github.com/WebAssembly/JS-BigInt-integration"),
+				Finished = true,
+				Supported = await module.InvokeAsync<bool>("bigInt")
+			},
+			new WasmProposal {
+				Title = "Bulk memory operations",
+				Uri = new Uri("https://github.com/WebAssembly/bulk-memory-operations"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("bulkMemory")
+			},
+			new WasmProposal {
+				Title = "Exception handling",
+				Uri = new Uri("https://github.com/WebAssembly/exception-handling"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("exceptions")
+			},
+			new WasmProposal {
+				Title = "Multi-value",
+				Uri = new Uri("https://github.com/WebAssembly/multi-value"),
+				Finished = true,
+				Supported = await module.InvokeAsync<bool>("multiValue")
+			},
+			new WasmProposal {
+				Title = "Import/Export of Mutable Globals",
+				Uri = new Uri("https://github.com/WebAssembly/mutable-global"),
+				Finished = true,
+				Supported = await module.InvokeAsync<bool>("mutableGlobals")
+			},
+			new WasmProposal {
+				Title = "Reference Types",
+				Uri = new Uri("https://github.com/WebAssembly/reference-types"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("referenceTypes")
+			},
+			new WasmProposal {
+				Title = "Non-trapping float-to-int conversions",
+				Uri = new Uri("https://github.com/WebAssembly/nontrapping-float-to-int-conversions"),
+				Finished = true,
+				Supported = await module.InvokeAsync<bool>("saturatedFloatToInt")
+			},
+			new WasmProposal {
+				Title = "Sign-extension operators",
+				Uri = new Uri("https://github.com/WebAssembly/sign-extension-ops"),
+				Finished = true,
+				Supported = await module.InvokeAsync<bool>("signExtensions")
+			},
+			new WasmProposal {
+				Title = "Fixed-width SIMD",
+				Uri = new Uri("https://github.com/webassembly/simd"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("simd")
+			},
+			new WasmProposal {
+				Title = "Tail call",
+				Uri = new Uri("https://github.com/WebAssembly/tail-call"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("tailCall")
+			},
+			new WasmProposal {
+				Title = "Threads",
+				Uri = new Uri("https://github.com/webassembly/threads"),
+				Finished = false,
+				Supported = await module.InvokeAsync<bool>("threads")
+			}
+		};
+	}
+}
