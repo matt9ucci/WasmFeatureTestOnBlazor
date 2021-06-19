@@ -11,4 +11,4 @@ dotnet run
 
 ## About Tests
 
-The tests currently depend on [wasm-feature-detect v1.2.9](https://github.com/GoogleChromeLabs/wasm-feature-detect/releases/tag/v1.2.9) ESM.
+The tests currently depend on [wasm-feature-detect v1.2.11](https://unpkg.com/wasm-feature-detect@1.2.11/dist/esm/index.js?module) ESM.
