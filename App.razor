@@ -32,13 +32,13 @@
 
 @code {
 	private class WasmProposal {
-		public string Title { get; set; }
-		public Uri Uri { get; set; }
-		public bool Finished { get; set; } @* https://github.com/WebAssembly/proposals/blob/master/finished-proposals.md *@
-		public bool Supported { get; set; }
+		public string Title { get; init; } = string.Empty;
+		public Uri Uri { get; init; } = new Uri("about:blank");
+		public bool Finished { get; init; } @* https://github.com/WebAssembly/proposals/blob/master/finished-proposals.md *@
+		public bool Supported { get; init; }
 	}
 
-	private WasmProposal[] wasmProposals;
+	private WasmProposal[] wasmProposals = Array.Empty<WasmProposal>();
 
 	protected override async Task OnInitializedAsync() {
 		var module = await JS.InvokeAsync<IJSObjectReference>("import", "./wasm-feature-detect/index.js");
